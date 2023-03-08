@@ -18,6 +18,10 @@ import { NgForm } from '@angular/forms';
 
     <button (click)="logout()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Logout</button>
 
+    <button (click)="getBooks()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Get books</button>
+
+    <button (click)="getPages()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Get pages</button>
+
     <form #addRecordForm="ngForm" (ngSubmit)="addRecord(addRecordForm)" class="flex flex-col">
       <input type="text" name="titre" class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none" placeholder="Titre" ngModel>
       <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add record</button>
@@ -132,5 +136,22 @@ export class AppComponent {
     });
   }
 
+  getBooks() {
+    this.databaseService.getBooks().then(record => {
+      console.log('Books fetched:', record);
+    }
+    ).catch(err => {
+      console.log('Error fetching books:', err);
+    });
+  }
+
+  getPages() {
+    this.databaseService.getPagesForBook().then(record => {
+      console.log('Pages fetched:', record);
+    }
+    ).catch(err => {
+      console.log('Error fetching pages:', err);
+    });
+  }
 
 }

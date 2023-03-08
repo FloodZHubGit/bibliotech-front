@@ -25,13 +25,13 @@ export class DatabaseService {
 
   async createUser() {
     const data = {
-      "username": "test_username",
-      "email": "test@example.com",
+      "username": "test",
+      "email": "test@gmail.com",
       "emailVisibility": true,
       "password": "12345678",
       "passwordConfirm": "12345678",
       "firstname": "test",
-      "lastname": "user",
+      "lastname": "test",
       "role": "user"
     };
 
@@ -41,7 +41,7 @@ export class DatabaseService {
   //login user
   async loginUser() {
     const authData = await this.pb.collection('users').authWithPassword(
-      'test@example.com',
+      'test@gmail.com',
       '12345678',
     );
   
@@ -72,5 +72,19 @@ export class DatabaseService {
   async addImage(data: any) {
     const record = await this.pb.collection('images').create(data);
     return record;
+  }
+
+  async getBooks() {
+    let records = await this.pb.collection('books').getFullList({
+      sort: '-created',
+    });
+    return records;
+  }
+
+  async getPagesForBook() {
+    const records = await this.pb.collection('pages').getFullList({
+      filter: 'book_id = "cxr9qr33qqi7733"',
+    });
+    return records;
   }
 }
