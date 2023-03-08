@@ -30,7 +30,9 @@ export class DatabaseService {
       "emailVisibility": true,
       "password": "12345678",
       "passwordConfirm": "12345678",
-      "name": "test",
+      "firstname": "test",
+      "lastname": "user",
+      "role": "user"
     };
 
     const record = await this.pb.collection('users').create(data);
@@ -67,4 +69,8 @@ export class DatabaseService {
     await this.pb.collection('tests').delete(id);
   }
 
+  async addImage(data: any) {
+    const record = await this.pb.collection('images').create(data);
+    return record;
+  }
 }
