@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DatabaseService } from './database.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,10 @@ import { DatabaseService } from './database.service';
 
     <button (click)="logout()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Logout</button>
 
-    <button (click)="addRecord()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add record</button>
+    <form #addRecordForm="ngForm" (ngSubmit)="addRecord(addRecordForm)" class="flex flex-col">
+      <input type="text" name="titre" class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none" placeholder="Titre" ngModel>
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add record</button>
+    </form>
 
     <h2 class="text-2xl font-bold underline">
       Records
@@ -44,19 +48,18 @@ export class AppComponent {
     });
   }
 
-  addRecord() {
-    this.databaseService.addRecord().then(record => {
-      console.log('Record created:', record);
+  addRecord( form: NgForm ) {
+    this.databaseService.addRecord(form.value).then(record => {
+      console.log('Record added:', record);
       //reload records
       this.databaseService.getRecords().then(records => {
-        this.records = records;
+      this.records = records;
         console.log('Records fetched:', records);
       }, err => {
         console.log('Error fetching records:', err);
-      }
-      );
+      });
     }).catch(err => {
-      console.log('Error creating record:', err);
+      console.log('Error adding record:', err);
     });
   }
 

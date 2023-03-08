@@ -18,12 +18,9 @@ export class DatabaseService {
     return records;
   }
 
-  async addRecord() {
-    const data = {
-      "titre": "test"
-    };
-    
+  async addRecord(data: any) {
     const record = await this.pb.collection('tests').create(data);
+    return record;
   }
 
   async createUser() {
