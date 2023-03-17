@@ -54,10 +54,10 @@ export class DatabaseService {
   async checkAuth() {
     //check if user is authenticated
     if (this.pb.authStore.isValid) {
-      console.log('user is authenticated');
+      return true;
     }
     else {
-      console.log('user is not authenticated');
+      return false;
     }
   }
 
