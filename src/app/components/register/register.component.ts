@@ -5,33 +5,42 @@ import { DatabaseService } from '../../database.service';
 @Component({
   selector: 'app-register',
   template: `
-    <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
-      <div class="mb-4">
-        <label for="email" class="sr-only">Email</label>
-        <input type="email" name="email" id="email" placeholder="Email*" class="bg-gray-100 border-2 w-full p-4 rounded-lg" required ngModel>
+  <!--center on the page -->
+    <div class="py-8">
+      <div class="max-w-xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+        <form #registerForm="ngForm" (ngSubmit)="register(registerForm)" class="flex flex-col">
+          <div class="mb-4">
+            <label for="email" class="text-gray-700 font-bold mb-2">Email</label>
+            <input type="email" name="email" id="email" class="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
+                        placeholder-gray-400 focus:outline-none focus:ring-[#D9C8B7] focus:border-[#D9C8B7] sm:text-sm" required ngModel>
+          </div>
+          <div class="mb-4">
+            <label for="firstName" class="text-gray-700 font-bold mb-2">Prénom</label>
+            <input type="text" name="firstName" id="firstName" class="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
+                        placeholder-gray-400 focus:outline-none focus:ring-[#D9C8B7] focus:border-[#D9C8B7] sm:text-sm" ngModel required>
+          </div>
+          <div class="mb-4">
+            <label for="lastName" class="text-gray-700 font-bold mb-2">Nom</label>
+            <input type="text" name="lastName" id="lastName" class="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
+                        placeholder-gray-400 focus:outline-none focus:ring-[#D9C8B7] focus:border-[#D9C8B7] sm:text-sm" ngModel required>
+          </div>
+          <div class="mb-4">
+            <label for="password" class="text-gray-700 font-bold mb-2">Mot de passe</label>
+            <input type="password" name="password" id="password" class="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
+                        placeholder-gray-400 focus:outline-none focus:ring-[#D9C8B7] focus:border-[#D9C8B7] sm:text-sm" ngModel required>
+          </div>
+          <div class="mb-4">
+            <label for="avatar" class="text-gray-700 font-bold mb-2">Avatar (optionnel)</label>
+            <br>
+            <input (change)="onFileChange($event)" type="file" id="fileUpload" name="image" class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none">
+          </div>
+          <div>
+            <button type="submit" class="bg-[#D9C8B7] hover:bg-[#B8A99B] text-white font-bold py-2 px-4 rounded w-full focus:outline-none focus:shadow-outline">S'inscrire</button>
+          </div>
+        </form>
+        <p class="text-red-500">{{error}} </p>
       </div>
-      <div class="mb-4">
-        <label for="firstName" class="sr-only">First Name</label>
-        <input type="text" name="firstName" id="firstName" placeholder="First Name*" class="bg-gray-100 border-2 w-full p-4 rounded-lg" ngModel required>
-      </div>
-      <div class="mb-4">
-        <label for="lastName" class="sr-only">Last Name</label>
-        <input type="text" name="lastName" id="lastName" placeholder="Last Name*" class="bg-gray-100 border-2 w-full p-4 rounded-lg" ngModel required>
-      </div>
-      <div class="mb-4">
-        <label for="password" class="sr-only">Password</label>
-        <input type="password" name="password" id="password" placeholder="Password*" class="bg-gray-100 border-2 w-full p-4 rounded-lg" ngModel required>
-      </div>
-      <div class="mb-4">
-        <label for="avatar" class="sr-only">Avatar</label>
-        <input (change)="onFileChange($event)" type="file" id="fileUpload" name="image" class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none" placeholder="Titre">
-      </div>
-      <div>
-        <button type="submit" class="bg-blue-500 text-white px-4 py-3 rounded font-medium w-full">Register</button>
-      </div>
-    </form>
-
-    <p>{{error}}
+    </div>
   `,
   styles: []
 })

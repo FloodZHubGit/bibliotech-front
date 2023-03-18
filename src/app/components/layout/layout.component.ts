@@ -40,13 +40,11 @@ import { Users } from '../../models/users';
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+            <a routerLink="/" class="hover:bg-[#B8A99B] text-white rounded-md px-3 py-2 text-md font-medium">Accueil</a>
+
             <a href="#" class="hover:bg-[#B8A99B] text-white rounded-md px-3 py-2 text-md font-medium">Livres</a>
 
             <a href="#" class="hover:bg-[#B8A99B] text-white rounded-md px-3 py-2 text-md font-medium">Auteurs</a>
-
-            <a href="#" class="hover:bg-[#B8A99B] text-white rounded-md px-3 py-2 text-md font-medium">Jsp</a>
-
-            <a href="#" class="hover:bg-[#B8A99B] text-white rounded-md px-3 py-2 text-md font-medium">Jsp 2</a>
           </div>
         </div>
       </div>
@@ -54,8 +52,8 @@ import { Users } from '../../models/users';
 
         <!--if user is not logged in-->
         <div *ngIf="!loggedIn">
-          <a routerLink="/login" class="hover:bg-[#B8A99B] text-white rounded-md px-3 py-2 text-md font-medium">Login</a>
-          <a routerLink="/register" class="hover:bg-[#B8A99B] text-white rounded-md px-3 py-2 text-md font-medium">Register</a>
+          <a routerLink="/login" class="hover:bg-[#B8A99B] text-white rounded-md px-3 py-2 text-md font-medium">Connexion</a>
+          <a routerLink="/register" class="hover:bg-[#B8A99B] text-white rounded-md px-3 py-2 text-md font-medium">Inscription</a>
         </div>
 
         <!--if user is logged in-->

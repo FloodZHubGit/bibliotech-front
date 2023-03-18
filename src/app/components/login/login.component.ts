@@ -5,19 +5,30 @@ import { DatabaseService } from '../../database.service';
 @Component({
   selector: 'app-login',
   template: `
-    <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
-      <div class="mb-4">
-        <label for="email" class="sr-only">Email</label>
-        <input type="email" name="email" id="email" placeholder="Email" class="bg-gray-100 border-2 w-full p-4 rounded-lg" ngModel>
-      </div>
-      <div class="mb-4">
-        <label for="password" class="sr-only">Password</label>
-        <input type="password" name="password" id="password" placeholder="Password" class="bg-gray-100 border-2 w-full p-4 rounded-lg" ngModel>
-      </div>
-      <div>
-        <button type="submit" class="bg-blue-500 text-white px-4 py-3 rounded font-medium w-full">Login</button>
-      </div>
-    </form>
+  <div class="py-8">
+    <div class="max-w-xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+      <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+        <div class="mb-4">
+        <label for="email" class="text-gray-700 font-bold mb-2">
+          Email
+        </label>
+          <input type="email" name="email" id="email" class="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
+                        placeholder-gray-400 focus:outline-none focus:ring-[#D9C8B7] focus:border-[#D9C8B7] sm:text-sm" ngModel required>
+        </div>
+        <div class="mb-4">
+        <label for="password" class="text-gray-700 font-bold mb-2">
+          Mot de passe
+        </label>
+          <input type="password" name="password" id="password" class="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
+                        placeholder-gray-400 focus:outline-none focus:ring-[#D9C8B7] focus:border-[#D9C8B7] sm:text-sm" ngModel required>
+        </div>
+        <div>
+          <button type="submit" class="bg-[#D9C8B7] hover:bg-[#B8A99B] text-white px-4 py-3 rounded font-medium w-full">Se connecter</button>
+        </div>
+      </form>
+      <p class="text-red-500">{{error}} </p>
+    </div>
+  </div>
   `,
   styles: []
 })
@@ -30,20 +41,22 @@ export class LoginComponent {
     }
     ).catch(err => {
       console.log(err);
-    }
-    );
+    });
   }
 
-  login(loginForm: NgForm) {
-    this.databaseService.loginUser(loginForm).then(record => {
-      console.log('User logged in:', record);
-    }).catch(err => {
-      console.log('Error logging in user:', err);
-    });
+  error: string = '';
 
-    setTimeout(() => {
-      window.location.reload();
+  login(loginForm: NgForm) {
+    if (loginForm.value.email == '' || loginForm.value.password == '') {
+      this.error = "Veuillez remplir tous les champs";
+      return;
     }
-    , 1000);
+    else{
+      this.databaseService.loginUser(loginForm).then(record => {
+        window.location.href = '/';
+      }).catch(err => {
+        this.error = "Email ou mot de passe incorrect"
+      });
+    }
   }
 }

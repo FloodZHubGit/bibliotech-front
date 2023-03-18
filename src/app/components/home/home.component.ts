@@ -1,141 +1,43 @@
 import { Component } from '@angular/core';
 import { DatabaseService } from '../../database.service';
-import { NgForm } from '@angular/forms';
+import { Users } from '../../models/users';
 
 @Component({
   selector: 'app-root',
   template: `
-    <h1 class="text-3xl font-bold underline">
-      {{title}}
-    </h1>
-
-
-    <button (click)="checkAuth()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Check auth</button>
-
-    <button (click)="logout()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Logout</button>
-
-    <button (click)="getBooks()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Get books</button>
-
-    <button (click)="getPages()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Get pages</button>
-
-    <form #addRecordForm="ngForm" (ngSubmit)="addRecord(addRecordForm)" class="flex flex-col">
-      <input type="text" name="titre" class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none" placeholder="Titre" ngModel>
-      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add record</button>
-    </form>
-
-    <h2 class="text-2xl font-bold underline">
-      Records
-    </h2>
-  
-    <ul class="list-disc">
-      <li *ngFor="let record of records" class="text-xl"> {{record.titre}}       <button (click)="deleteRecord(record)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Delete</button> </li>
-    </ul>
-
-    <form #addImageForm="ngForm" (ngSubmit)="addImage()" class="flex flex-col">
-      <input (change)="onFileChange($event)" type="file" id="fileUpload" name="image" class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none" placeholder="Titre">
-      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add image</button>
-    </form>
+    <!--center -->
+    <div class="p-4 text-center">
+      <h1 class="text-3xl font-bold mb-4">{{ greeting }}</h1>
+      <p class="mb-4">Vous pouvez aller voir la page des <a routerLink="/books" class="text-[#B8A99B] hover:underline">livres</a> ou des <a routerLink="/authors" class="text-[#B8A99B] hover:underline">auteurs</a>.</p>
+      <p class="mb-4" *ngIf="!loggedIn">Vous pouvez aussi vous <a routerLink="/login" class="text-[#B8A99B] hover:underline">connecter</a> ou vous <a routerLink="/register" class="text-[#B8A99B] hover:underline">inscrire</a>.</p>
+    </div>
   `,
   styles: []
 })
 export class HomeComponent {
-  title = 'Bibliotech';
-  records: any[] = [];
-
   constructor(private databaseService: DatabaseService) {
-    
-  }
-
-  ngOnInit(): void {
-    this.databaseService.getRecords().then(records => {
-      this.records = records;
-      console.log('Records fetched:', records);
-    }).catch(err => {
-      console.log('Error fetching records:', err);
-    });
-  }
-
-  addRecord( form: NgForm ) {
-    this.databaseService.addRecord(form.value).then(record => {
-      console.log('Record added:', record);
-      //reload records
-      this.databaseService.getRecords().then(records => {
-      this.records = records;
-        console.log('Records fetched:', records);
-      }, err => {
-        console.log('Error fetching records:', err);
-      });
-    }).catch(err => {
-      console.log('Error adding record:', err);
-    });
-  }
-
-  checkAuth() {
     this.databaseService.checkAuth().then(record => {
-      console.log('User checked:', record);
-    }).catch(err => {
-      console.log('Error checking user:', err);
-    });
-  }
-
-  logout() {
-    this.databaseService.logoutUser();
-
-    setTimeout(() => {
-      window.location.reload();
-    }
-    , 1000);
-  }
-
-  deleteRecord(record : any) {
-    this.databaseService.deleteRecord(record.id).then(record => {
-      console.log('Record deleted:', record);
-      //reload records
-      this.databaseService.getRecords().then(records => {
-        this.records = records;
-        console.log('Records fetched:', records);
-      }, err => {
-        console.log('Error fetching records:', err);
+      if (record == true) {
+        this.loggedIn = true;
       }
-      );
-    }).catch(err => {
-      console.log('Error deleting record:', err);
-    });
-  }
-
-  files: any[] = [];
-
-  onFileChange(event : any) {
-    this.files = event.target.files;
-    console.log(event);
-  }
-
-  addImage() {
-    const formData = new FormData();
-    formData.append('image', this.files[0]);
-    this.databaseService.addImage(formData).then(record => {
-      console.log('Image added:', record);
     }
     ).catch(err => {
-      console.log('Error adding image:', err);
+      console.log(err);
+    });
+
+    this.databaseService.getUser().then(record => {
+      this.user = record;
+    }
+    ).catch(err => {
+      console.log(err);
     });
   }
 
-  getBooks() {
-    this.databaseService.getBooks().then(record => {
-      console.log('Books fetched:', record);
-    }
-    ).catch(err => {
-      console.log('Error fetching books:', err);
-    });
+  get greeting(): string {
+    return this.loggedIn ? `Bienvenue sur la Bibliotech ${this.user?.firstname} !` : 'Bienvenue sur la Bibliotech !';
   }
 
-  getPages() {
-    this.databaseService.getPagesForBook().then(record => {
-      console.log('Pages fetched:', record);
-    }
-    ).catch(err => {
-      console.log('Error fetching pages:', err);
-    });
-  }
+  user: Users | undefined;
+
+  loggedIn: boolean = false;
 }
