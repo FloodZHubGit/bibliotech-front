@@ -1,8 +1,8 @@
 export class categories{
     constructor(
-        public id: string,
-        public label: string,
-        public created: string,
-        public updated: string
+        public id: string | undefined,
+        public label: string | undefined,
+        public created: string | undefined,
+        public updated: string | undefined,
     ){}
 }

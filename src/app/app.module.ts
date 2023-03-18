@@ -5,14 +5,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import PocketBase from 'pocketbase';
-import { HomeComponent } from './home/home.component';
-import { LayoutComponent } from './layout/layout.component';
+import { HomeComponent } from './components/home/home.component';
+import { LayoutComponent } from './components/layout/layout.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    LayoutComponent
+    LayoutComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

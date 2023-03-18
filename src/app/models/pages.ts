@@ -1,10 +1,10 @@
 export class pages{
     constructor(
-        public id: string,
-        public title: string,
-        public content: string,
-        public book_id: string,
-        public created: string,
-        public updated: string
+        public id: string | undefined,
+        public title: string | undefined,
+        public content: string | undefined,
+        public book_id: string | undefined,
+        public created: string | undefined,
+        public updated: string | undefined,
     ){}
 }

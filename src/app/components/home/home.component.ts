@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DatabaseService } from '../database.service';
+import { DatabaseService } from '../../database.service';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -9,10 +9,6 @@ import { NgForm } from '@angular/forms';
       {{title}}
     </h1>
 
-
-    <button (click)="createUser()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create user</button>
-
-    <button (click)="loginUser()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login user</button>
 
     <button (click)="checkAuth()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Check auth</button>
 
@@ -72,27 +68,6 @@ export class HomeComponent {
     }).catch(err => {
       console.log('Error adding record:', err);
     });
-  }
-
-  createUser() {
-    this.databaseService.createUser().then(record => {
-      console.log('User created:', record);
-    }).catch(err => {
-      console.log('Error creating user:', err);
-    });
-  }
-
-  loginUser() {
-    this.databaseService.loginUser().then(record => {
-      console.log('User logged in:', record);
-    }).catch(err => {
-      console.log('Error logging in user:', err);
-    });
-
-    setTimeout(() => {
-      window.location.reload();
-    }
-    , 1000);
   }
 
   checkAuth() {
@@ -163,5 +138,4 @@ export class HomeComponent {
       console.log('Error fetching pages:', err);
     });
   }
-
 }

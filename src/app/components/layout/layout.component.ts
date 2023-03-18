@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { DatabaseService } from '../database.service';
+import { DatabaseService } from '../../database.service';
+//import user model
+import { Users } from '../../models/users';
 
 @Component({
   selector: 'app-layout',
@@ -52,8 +54,8 @@ import { DatabaseService } from '../database.service';
 
         <!--if user is not logged in-->
         <div *ngIf="!loggedIn">
-          <a href="#" class="hover:bg-[#B8A99B] text-white rounded-md px-3 py-2 text-md font-medium">Login</a>
-          <a href="#" class="hover:bg-[#B8A99B] text-white rounded-md px-3 py-2 text-md font-medium">Register</a>
+          <a routerLink="/login" class="hover:bg-[#B8A99B] text-white rounded-md px-3 py-2 text-md font-medium">Login</a>
+          <a routerLink="/register" class="hover:bg-[#B8A99B] text-white rounded-md px-3 py-2 text-md font-medium">Register</a>
         </div>
 
         <!--if user is logged in-->
@@ -63,14 +65,16 @@ import { DatabaseService } from '../database.service';
             <div>
               <button type="button" class="flex rounded-full bg-gray-800 text-sm" id="user-menu-button" aria-expanded="false" aria-haspopup="true" (click)="menuOpen = !menuOpen">
                 <span class="sr-only">Open user menu</span>
-                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" *ngIf="!user?.avatar">
+                <img class="h-8 w-8 rounded-full" src="http://127.0.0.1:8090/api/files/_pb_users_auth_/{{user?.id}}/{{user?.avatar}}" alt="" *ngIf="user?.avatar">
               </button>
             </div>
 
             <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1" *ngIf="menuOpen">
             <!-- Active: "bg-gray-100", Not Active: "" -->
             <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Votre profil</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Déconnexion</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1" *ngIf="user?.role == 'admin'">Admin</a>
+            <a href="#" (click)="logout()" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Déconnexion</a>
           </div>
           </div>
         </div>
@@ -104,6 +108,10 @@ export class LayoutComponent {
 
   userOpen: boolean = false;
 
+  user: Users | undefined;
+
+
+
   constructor(private databaseService: DatabaseService) {
     
   }
@@ -111,9 +119,21 @@ export class LayoutComponent {
   ngOnInit(): void {
     this.databaseService.checkAuth().then(record => {
       this.loggedIn = record;
-      console.log('User checked:', record);
     }).catch(err => {
       console.log('Error checking user:', err);
     });
+
+    this.databaseService.getUser().then(record => {
+      this.user = record;
+    }
+    ).catch(err => {
+      console.log('Error getting user data:', err);
+    });
+  }
+
+  logout() {
+    this.databaseService.logoutUser();
+
+    window.location.reload();
   }
 }

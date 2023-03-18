@@ -1,13 +1,13 @@
-export class users{
+export class Users{
     constructor(
-        public id: string,
-        public username: string,
-        public email: string,
-        public firstname: string,
-        public lastname: string,
-        public role: string,
-        public avatar: string,
-        public created: string,
-        public updated: string
+        public id: string | undefined,
+        public username: string | undefined,
+        public email: string | undefined,
+        public firstname: string | undefined,
+        public lastname: string | undefined,
+        public role: string | undefined,
+        public avatar: string | undefined,
+        public created: string | undefined,
+        public updated: string | undefined,
     ){}
 }

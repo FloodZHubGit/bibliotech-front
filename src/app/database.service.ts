@@ -23,26 +23,32 @@ export class DatabaseService {
     return record;
   }
 
-  async createUser() {
-    const data = {
-      "username": "test",
-      "email": "test@gmail.com",
-      "emailVisibility": true,
-      "password": "12345678",
-      "passwordConfirm": "12345678",
-      "firstname": "test",
-      "lastname": "test",
-      "role": "user"
-    };
+  async registerUser(data: any) {
 
-    const record = await this.pb.collection('users').create(data);
+    const authData = new FormData();
+
+    authData.append('username', '');
+    authData.append('email', data.value.email);
+    authData.append('emailVisibility', 'false');
+    authData.append('password', data.value.password);
+    authData.append('passwordConfirm', data.value.password);
+    authData.append('firstname', data.value.firstName);
+    authData.append('lastname', data.value.lastName);
+    authData.append('role', data.value.role);
+    if (data.value.avatar) {
+      authData.append('avatar', data.value.avatar);
+    }
+
+    console.log(authData);
+
+    const record = await this.pb.collection('users').create(authData);
   }
 
   //login user
-  async loginUser() {
+  async loginUser(data: any) {
     const authData = await this.pb.collection('users').authWithPassword(
-      'test@gmail.com',
-      '12345678',
+      data.value.email,
+      data.value.password
     );
   
     // after the above you can also access the auth data from the authStore
@@ -52,13 +58,28 @@ export class DatabaseService {
   }
 
   async checkAuth() {
-    //check if user is authenticated
     if (this.pb.authStore.isValid) {
       return true;
     }
     else {
       return false;
     }
+  }
+
+  async getUser() {
+    const userData = {
+      id: this.pb.authStore.model?.id,
+      email: this.pb.authStore.model?.email,
+      firstname: this.pb.authStore.model?.['firstname'],
+      lastname: this.pb.authStore.model?.['lastname'],
+      role: this.pb.authStore.model?.['role'],
+      username: this.pb.authStore.model?.['username'],
+      avatar: this.pb.authStore.model?.avatar,
+      created: this.pb.authStore.model?.created,
+      updated: this.pb.authStore.model?.updated,
+    }
+
+    return userData;
   }
 
   async logoutUser() {
