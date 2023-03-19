@@ -13,6 +13,7 @@ import { AdminComponent } from './components/admin/admin.component';
 import { BibliothequeComponent } from './components/bibliotheque/bibliotheque.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AuteursComponent } from './auteurs/auteurs.component';
+import { ProfileIdComponent } from './components/profile/profile-id/profile-id.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AuteursComponent } from './auteurs/auteurs.component';
     AdminComponent,
     BibliothequeComponent,
     ProfileComponent,
-    AuteursComponent
+    AuteursComponent,
+    ProfileIdComponent
   ],
   imports: [
     BrowserModule,

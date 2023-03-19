@@ -90,10 +90,18 @@ export class DatabaseService {
 
     records = await this.pb.collection('books').getFullList({
       sort: '-created',
-      where: {
-        'user_id': this.pb.authStore.model?.id
-      }
+      filter: `user_id = "${this.pb.authStore.model?.id}"`,
     });
+    return records;
+  }
+
+  async getBookByUserId(id: string | undefined) {
+    let records: Books[] = [];
+    records = await this.pb.collection('books').getFullList({
+      sort: '-created',
+      filter: `user_id = "${id}"`,
+  });
+
     return records;
   }
 
@@ -119,5 +127,14 @@ export class DatabaseService {
     });
     console.log(records);
     return records;
+  }
+
+  async getUserById(id: string | undefined) {
+    let record: Users;
+
+    record = await this.pb.collection('users').getOne(id as string, {
+    });
+
+    return record;
   }
 }
