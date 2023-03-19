@@ -5,11 +5,10 @@ import { Users } from '../../models/users';
 @Component({
   selector: 'app-root',
   template: `
-    <!--center -->
     <div class="p-4 text-center">
       <h1 class="text-3xl font-bold mb-4">{{ greeting }}</h1>
-      <p class="mb-4">Vous pouvez aller voir la page des <a routerLink="/books" class="text-[#B8A99B] hover:underline">livres</a> ou des <a routerLink="/authors" class="text-[#B8A99B] hover:underline">auteurs</a>.</p>
-      <p class="mb-4" *ngIf="!loggedIn">Vous pouvez aussi vous <a routerLink="/login" class="text-[#B8A99B] hover:underline">connecter</a> ou vous <a routerLink="/register" class="text-[#B8A99B] hover:underline">inscrire</a>.</p>
+      <p class="mb-4">Vous pouvez aller voir la <a routerLink="/books" class="text-[#B8A99B] hover:underline">bibliothèque</a> ou les <a routerLink="/authors" class="text-[#B8A99B] hover:underline">auteurs</a></p>
+      <p class="mb-4" *ngIf="!loggedIn">Vous pouvez aussi vous <a routerLink="/login" class="text-[#B8A99B] hover:underline">connecter</a> ou vous <a routerLink="/register" class="text-[#B8A99B] hover:underline">inscrire</a></p>
     </div>
   `,
   styles: []

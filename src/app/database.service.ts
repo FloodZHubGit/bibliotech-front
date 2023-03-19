@@ -11,18 +11,6 @@ export class DatabaseService {
     this.pb = new PocketBase('http://127.0.0.1:8090');
   }
 
-  async getRecords() {
-    let records = await this.pb.collection('tests').getFullList({
-      sort: '-created',
-    });
-    return records;
-  }
-
-  async addRecord(data: any) {
-    const record = await this.pb.collection('tests').create(data);
-    return record;
-  }
-
   async registerUser(data: any) {
 
     const authData = new FormData();
@@ -66,7 +54,7 @@ export class DatabaseService {
     }
   }
 
-  async getUser() {
+  async getUser() { 
     const userData = {
       id: this.pb.authStore.model?.id,
       email: this.pb.authStore.model?.email,
@@ -84,15 +72,6 @@ export class DatabaseService {
 
   async logoutUser() {
     await this.pb.authStore.clear();
-  }
-
-  async deleteRecord(id: string) {
-    await this.pb.collection('tests').delete(id);
-  }
-
-  async addImage(data: any) {
-    const record = await this.pb.collection('images').create(data);
-    return record;
   }
 
   async getBooks() {

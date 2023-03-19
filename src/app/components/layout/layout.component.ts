@@ -34,17 +34,18 @@ import { Users } from '../../models/users';
       <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
         <div class="flex flex-shrink-0 items-center">
           <!-- find logo in assets folder -->
-          <img class="block h-8 w-auto lg:hidden" src="assets/images/logo.png" alt="Workflow" alt="Bibliotech">
-          <img class="hidden h-8 w-auto lg:block" src="assets/images/logo.png" alt="Bibliotech">
+          <img routerLink="/" class="block h-8 w-auto lg:hidden" src="assets/images/logo.png" alt="Workflow" alt="Bibliotech">
+          <img routerLink="/" class="hidden h-8 w-auto lg:block" src="assets/images/logo.png" alt="Bibliotech">
         </div>
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
-            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-            <a routerLink="/" class="hover:bg-[#B8A99B] text-white rounded-md px-3 py-2 text-md font-medium">Accueil</a>
 
-            <a href="#" class="hover:bg-[#B8A99B] text-white rounded-md px-3 py-2 text-md font-medium">Livres</a>
+            <a routerLink="/bibliotheque" class="hover:bg-[#B8A99B] text-white rounded-md px-3 py-2 text-md font-medium">Bibliothèque</a>
 
             <a href="#" class="hover:bg-[#B8A99B] text-white rounded-md px-3 py-2 text-md font-medium">Auteurs</a>
+
+            <a routerLink="/admin" class="hover:bg-[#B8A99B] text-white rounded-md px-3 py-2 text-md font-medium" *ngIf="user?.role == 'admin'">Admin</a>
+
           </div>
         </div>
       </div>
@@ -63,7 +64,7 @@ import { Users } from '../../models/users';
             <div>
               <button type="button" class="flex rounded-full bg-gray-800 text-sm" id="user-menu-button" aria-expanded="false" aria-haspopup="true" (click)="menuOpen = !menuOpen">
                 <span class="sr-only">Open user menu</span>
-                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" *ngIf="!user?.avatar">
+                <img class="h-8 w-8 rounded-full" src="assets/images/user_icon.png" alt="" *ngIf="!user?.avatar">
                 <img class="h-8 w-8 rounded-full" src="http://127.0.0.1:8090/api/files/_pb_users_auth_/{{user?.id}}/{{user?.avatar}}" alt="" *ngIf="user?.avatar">
               </button>
             </div>
@@ -71,7 +72,6 @@ import { Users } from '../../models/users';
             <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1" *ngIf="menuOpen">
             <!-- Active: "bg-gray-100", Not Active: "" -->
             <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Votre profil</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1" *ngIf="user?.role == 'admin'">Admin</a>
             <a href="#" (click)="logout()" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Déconnexion</a>
           </div>
           </div>
