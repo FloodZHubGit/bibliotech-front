@@ -32,7 +32,7 @@ import { DatabaseService } from '../../database.service';
           <div class="mb-4">
             <label for="avatar" class="text-gray-700 font-bold mb-2">Avatar (optionnel)</label>
             <br>
-            <input (change)="onFileChange($event)" type="file" id="fileUpload" name="image" class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none">
+            <input (change)="onFileChange($event)" type="file" id="fileUpload" name="image" type="file" name="avatar" id="avatar" accept="image/*" class="mt-1">
           </div>
           <div>
             <button type="submit" class="bg-[#D9C8B7] hover:bg-[#B8A99B] text-white font-bold py-2 px-4 rounded w-full focus:outline-none focus:shadow-outline">S'inscrire</button>

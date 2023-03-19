@@ -1,4 +1,4 @@
-export class categories{
+export class Categories{
     constructor(
         public id: string | undefined,
         public label: string | undefined,

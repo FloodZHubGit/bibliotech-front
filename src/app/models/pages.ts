@@ -1,4 +1,4 @@
-export class pages{
+export class Pages{
     constructor(
         public id: string | undefined,
         public title: string | undefined,

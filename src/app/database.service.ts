@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import PocketBase from 'pocketbase';
+import { Books } from 'src/app/models/books';
+import { Users } from 'src/app/models/users';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,9 @@ export class DatabaseService {
 
     const authData = new FormData();
 
-    authData.append('username', '');
+    const randomUsername = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
+    authData.append('username', randomUsername);
     authData.append('email', data.value.email);
     authData.append('emailVisibility', 'false');
     authData.append('password', data.value.password);
@@ -81,10 +85,39 @@ export class DatabaseService {
     return records;
   }
 
-  async getPagesForBook() {
-    const records = await this.pb.collection('pages').getFullList({
-      filter: 'book_id = "cxr9qr33qqi7733"',
+  async getBooksByConnectedUser() {
+    let records: Books[] = [];
+
+    records = await this.pb.collection('books').getFullList({
+      sort: '-created',
+      where: {
+        'user_id': this.pb.authStore.model?.id
+      }
     });
+    return records;
+  }
+
+  async updateUser(data: any) {
+    const authData = new FormData();
+
+    authData.append('username', this.pb.authStore.model?.['username']),
+    authData.append('firstname', data.value.firstName);
+    authData.append('lastname', data.value.lastName);
+    authData.append('username', data.value.username);
+
+    if (data.value.avatar) {
+      authData.append('avatar', data.value.avatar);
+    }
+
+    const record = await this.pb.collection('users').update(this.pb.authStore.model?.id as string, authData);
+  }
+
+  async getAllUsers() {
+    let records: Users[] = [];
+
+    records = await this.pb.collection('users').getFullList({
+    });
+    console.log(records);
     return records;
   }
 }

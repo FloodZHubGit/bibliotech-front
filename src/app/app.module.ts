@@ -11,6 +11,8 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { BibliothequeComponent } from './components/bibliotheque/bibliotheque.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { AuteursComponent } from './auteurs/auteurs.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { BibliothequeComponent } from './components/bibliotheque/bibliotheque.co
     LoginComponent,
     RegisterComponent,
     AdminComponent,
-    BibliothequeComponent
+    BibliothequeComponent,
+    ProfileComponent,
+    AuteursComponent
   ],
   imports: [
     BrowserModule,
