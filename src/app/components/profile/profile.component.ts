@@ -59,9 +59,10 @@ import { Books } from 'src/app/models/books';
           </div>
         </form>
         <p class="text-red-500">{{error}} </p>
+        <h2 class="text-2xl font-bold mb-4">Mes documents</h2>
+        <p class="text-gray-500 text-sm mb-4" *ngIf="books?.length == 0">Vous n'avez pas encore publié de document</p>
         <div class="py-8">
           <div class="max-w-xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-            <h2 class="text-2xl font-bold mb-4">Mes documents</h2>
             <div class="grid grid-cols-3 gap-4">
               <div class="bg-white rounded-lg shadow-md p-4" *ngFor="let book of books">
                 <h3 class="text-lg font-medium mb-2">{{book?.title}}</h3>

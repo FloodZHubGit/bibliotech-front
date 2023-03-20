@@ -9,6 +9,7 @@ import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-profile-id',
   template: `
+  <a routerLink="/auteurs" class="text-[#D9C8B7] hover:text-[#B8A99B] font-bold text-sm ml-5">Retour à la liste des auteurs</a>
   <div class="min-h-screen" *ngIf="user">
     <div class="py-8">
       <div class="max-w-xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -59,18 +60,24 @@ import { NgForm } from '@angular/forms';
             </div>
           </div>
         </form>
-        </div>
-      </div>
+        <h2 class="text-2xl font-bold mb-4">Documents</h2>
+        <p class="text-gray-500 text-sm mb-4" *ngIf="books?.length == 0">Cet auteur n'a pas encore publié de document.</p>
+        <div class="py-8">
+          <div class="max-w-xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+            <div class="grid grid-cols-3 gap-4">
+              <div class="bg-white rounded-lg shadow-md p-4" *ngFor="let book of books">
+                <h3 class="text-lg font-medium mb-2">{{book?.title}}</h3>
+                <p class="text-gray-500 text-sm mb-4">{{book?.created | date:'dd/MM/yyyy'}}</p>
+                <p class="text-gray-500 text-sm mb-4">{{book?.liked_by?.length}} <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 inline-block">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                </svg>
+                </p>
 
-      <div class="max-w-xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          <div class="bg-white rounded-lg shadow-md p-4" *ngFor="let book of books">
-            <p class="text-gray-500 text-sm">{{book?.created | date:'dd/MM/yyyy'}}</p>
-            <h3 class="text-lg font-medium mb-2">{{book?.title}}</h3>
-            <div class="flex justify-center">
-              <a routerLink="/book/{{book?.id}}" class="text-blue-500 hover:text-blue-600">Voir le livre</a>
+                <a href="#" class="text-blue-500 font-medium hover:underline">Voir le document</a>
+              </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </div>
