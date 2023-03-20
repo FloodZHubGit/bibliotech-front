@@ -111,13 +111,37 @@ export class DatabaseService {
     authData.append('username', this.pb.authStore.model?.['username']),
     authData.append('firstname', data.value.firstName);
     authData.append('lastname', data.value.lastName);
-    authData.append('username', data.value.username);
 
     if (data.value.avatar) {
       authData.append('avatar', data.value.avatar);
     }
 
     const record = await this.pb.collection('users').update(this.pb.authStore.model?.id as string, authData);
+  }
+
+  async updateUserWithId(id: string | undefined, username: string | undefined, data: any) {
+    const authData = new FormData();
+
+    console.log(data.value.firstName);
+    console.log(data.value.lastName);
+
+    authData.append('username', username as string),
+    authData.append('firstname', data.value.firstName);
+    authData.append('lastname', data.value.lastName);
+
+    if (data.value.avatar) {
+      authData.append('avatar', data.value.avatar);
+    }
+
+    const record = await this.pb.collection('users').update(id as string, authData);
+  }
+
+  async deleteUser() {
+    const record = await this.pb.collection('users').delete(this.pb.authStore.model?.id as string);
+  }
+
+  async deleteUserWithId(id: string | undefined) {
+    const record = await this.pb.collection('users').delete(id as string);
   }
 
   async getAllUsers() {

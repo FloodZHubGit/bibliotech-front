@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { DatabaseService } from '../../database.service';
 import { Users } from '../../models/users';
-
 import { NgForm } from '@angular/forms';
 import { Books } from 'src/app/models/books';
 
@@ -43,6 +42,20 @@ import { Books } from 'src/app/models/books';
             <button type="submit" class="bg-[#D9C8B7] hover:bg-[#B8A99B] text-white px-4 py-3 rounded font-medium w-full">
               Sauvegarder les modifications
             </button>
+            <button type="button" class="bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded font-medium w-full" (click)="deleteConfirmation = true">
+              Supprimer mon compte
+            </button>
+            <div class="flex flex-col space-y-4" *ngIf="deleteConfirmation">
+              <p class="text-red-500">Êtes-vous sûr de vouloir supprimer votre compte ?</p>
+              <div class="flex flex-row space-x-4">
+                <button type="button" class="bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded font-medium w-full" (click)="deleteAccount()">
+                  Oui
+                </button>
+                <button type="button" class="bg-[#D9C8B7] hover:bg-[#B8A99B] text-white px-4 py-3 rounded font-medium w-full" (click)="deleteConfirmation = false">
+                  Non
+                </button>
+              </div>
+            </div>
           </div>
         </form>
         <p class="text-red-500">{{error}} </p>
@@ -134,5 +147,21 @@ export class ProfileComponent {
   onFileChange(event : any) {
     this.files = event.target.files;
     console.log(event);
+  }
+
+  deleteConfirmation: boolean = false;
+
+  deleteAccount() {
+    if (this.deleteConfirmation) {
+      this.databaseService.deleteUser().then(record => {
+        window.location.href = '/';
+      }
+      ).catch(err => {
+        console.log('Error deleting user data:', err);
+      });
+    }
+    else {
+      this.deleteConfirmation = true;
+    }
   }
 }
