@@ -8,7 +8,7 @@ export class Users{
         public role: string | undefined,
         public avatar: string | undefined,
         public followers: string[] | undefined,
-        public created: string | undefined,
-        public updated: string | undefined,
+        public created: string,
+        public updated: string,
     ){}
 }

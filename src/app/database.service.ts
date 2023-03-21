@@ -11,6 +11,7 @@ export class DatabaseService {
 
   constructor() {
     this.pb = new PocketBase('http://127.0.0.1:8090');
+    this.pb.autoCancellation(false);
   }
 
   async registerUser(data: any) {
@@ -70,11 +71,9 @@ export class DatabaseService {
       username: this.pb.authStore.model?.['username'],
       avatar: this.pb.authStore.model?.avatar,
       followers: this.pb.authStore.model?.['followers'],
-      created: this.pb.authStore.model?.created,
-      updated: this.pb.authStore.model?.updated,
+      created: this.pb.authStore.model?.created || '',
+      updated: this.pb.authStore.model?.updated || '',
     }
-
-    console.log(this.pb.authStore.model?.['followers']);
 
     return userData;
   }
@@ -168,5 +167,40 @@ export class DatabaseService {
     });
 
     return record;
+  }
+  
+  async followUser(id: string | undefined) {
+    let record: Users;
+
+    record = await this.pb.collection('users').getOne(id as string, {
+    });
+
+    let followers: string[] = [];
+    followers = record.followers as string[];
+
+    if (followers.includes(this.pb.authStore.model?.id as string)) {
+      followers = followers.filter((item) => item !== this.pb.authStore.model?.id);
+    }
+    else {
+      followers.push(this.pb.authStore.model?.id as string);
+    }
+
+    const record2 = await this.pb.collection('users').update(id as string, {
+      followers: followers,
+    });
+  }
+
+  async getFavoriteAuthors() {
+    let records: Users[] = [];
+
+    //if followers includes current user id
+
+    records = await this.pb.collection('users').getFullList({
+      filter: `followers ~ "${this.pb.authStore.model?.id}"`,
+    });
+
+    console.log(records);
+
+    return records;
   }
 }

@@ -114,7 +114,6 @@ export class LayoutComponent {
   }
 
   ngOnInit(): void {
-    this.databaseService.refreshUser();
     this.databaseService.checkAuth().then(record => {
       this.loggedIn = record;
     }).catch(err => {
@@ -127,6 +126,10 @@ export class LayoutComponent {
     ).catch(err => {
       console.log('Error getting user data:', err);
     });
+
+    if (this.loggedIn) {
+      this.databaseService.refreshUser();
+    }
   }
 
   logout() {

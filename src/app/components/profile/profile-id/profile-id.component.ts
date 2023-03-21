@@ -19,7 +19,12 @@ import { NgForm } from '@angular/forms';
           <h1 class="text-2xl font-bold">{{user.firstname}} {{user.lastname}}</h1>
           <p class="text-gray-500 text-sm">Membre depuis {{user.created | date:'dd/MM/yyyy'}}</p>
           <p class="text-gray-500 text-sm">{{user.followers?.length}} followers</p>
-
+          <div class="flex space-x-4" *ngIf="connectedUser?.id != undefined">
+          <button class="bg-[#D9C8B7] hover:bg-[#B8A99B] text-white px-4 py-3 rounded font-medium" *ngIf="connectedUser?.id !== user?.id" (click)="follow()">
+            <span *ngIf="user.followers?.includes(connectedUser?.id || '')">Ne plus suivre</span>
+            <span *ngIf="!user.followers?.includes(connectedUser?.id || '')">Suivre</span>
+          </button>
+          </div>
           <form #updateForm="ngForm" (ngSubmit)="update(updateForm)" *ngIf="connectedUser?.role === 'admin' || connectedUser?.id === user?.id">
           <div class="flex flex-col space-y-4">
             <div>
@@ -115,7 +120,6 @@ export class ProfileIdComponent {
 
     this.databaseService.getUserById(this.userId).then((user) => {
       this.user = user;
-      console.log(this.user);
     }
     ).catch(err => {
       this.user = undefined;
@@ -186,4 +190,12 @@ export class ProfileIdComponent {
     }
   }
 
+  follow() {
+    this.databaseService.followUser(this.userId).then(() => {
+      window.location.reload();
+    }
+    ).catch(err => {
+      console.log(err);
+    });
+  }
 }
