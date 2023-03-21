@@ -59,7 +59,9 @@ export class DatabaseService {
   }
 
   async getUser() { 
-    const userData = {
+    let userData: Users | undefined;
+
+    userData = {
       id: this.pb.authStore.model?.id,
       email: this.pb.authStore.model?.email,
       firstname: this.pb.authStore.model?.['firstname'],
@@ -67,11 +69,18 @@ export class DatabaseService {
       role: this.pb.authStore.model?.['role'],
       username: this.pb.authStore.model?.['username'],
       avatar: this.pb.authStore.model?.avatar,
+      followers: this.pb.authStore.model?.['followers'],
       created: this.pb.authStore.model?.created,
       updated: this.pb.authStore.model?.updated,
     }
 
+    console.log(this.pb.authStore.model?.['followers']);
+
     return userData;
+  }
+
+  async refreshUser() {
+    const authData = await this.pb.collection('users').authRefresh();
   }
 
   async logoutUser() {
@@ -149,7 +158,6 @@ export class DatabaseService {
 
     records = await this.pb.collection('users').getFullList({
     });
-    console.log(records);
     return records;
   }
 

@@ -114,6 +114,7 @@ export class LayoutComponent {
   }
 
   ngOnInit(): void {
+    this.databaseService.refreshUser();
     this.databaseService.checkAuth().then(record => {
       this.loggedIn = record;
     }).catch(err => {

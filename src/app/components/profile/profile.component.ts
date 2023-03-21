@@ -16,6 +16,7 @@ import { Books } from 'src/app/models/books';
         <img class="w-24 h-24 rounded-full object-cover" src="assets/images/user_icon.png" alt="User avatar" *ngIf="!user?.avatar">
         <h1 class="text-2xl font-bold">{{user?.firstname}} {{user?.lastname}}</h1>
         <p class="text-gray-500 text-sm">Membre depuis {{user?.created | date:'dd/MM/yyyy'}}</p>
+        <p class="text-gray-500 text-sm">{{user?.followers?.length}} followers</p>
         <p class="text-gray-500 text-sm" *ngIf="user?.role == 'admin'">Vous êtes un administrateur</p>
         <form #updateForm="ngForm" (ngSubmit)="update(updateForm)">
           <div class="flex flex-col space-y-4">

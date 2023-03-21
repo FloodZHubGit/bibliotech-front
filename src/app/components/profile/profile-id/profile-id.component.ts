@@ -18,6 +18,7 @@ import { NgForm } from '@angular/forms';
           <img class="w-24 h-24 rounded-full object-cover" src="assets/images/user_icon.png" alt="User avatar" *ngIf="!user?.avatar">
           <h1 class="text-2xl font-bold">{{user.firstname}} {{user.lastname}}</h1>
           <p class="text-gray-500 text-sm">Membre depuis {{user.created | date:'dd/MM/yyyy'}}</p>
+          <p class="text-gray-500 text-sm">{{user.followers?.length}} followers</p>
 
           <form #updateForm="ngForm" (ngSubmit)="update(updateForm)" *ngIf="connectedUser?.role === 'admin' || connectedUser?.id === user?.id">
           <div class="flex flex-col space-y-4">
@@ -114,6 +115,7 @@ export class ProfileIdComponent {
 
     this.databaseService.getUserById(this.userId).then((user) => {
       this.user = user;
+      console.log(this.user);
     }
     ).catch(err => {
       this.user = undefined;
