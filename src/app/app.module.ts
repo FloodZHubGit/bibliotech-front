@@ -31,7 +31,7 @@ import { ProfileIdComponent } from './components/profile/profile-id/profile-id.c
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
