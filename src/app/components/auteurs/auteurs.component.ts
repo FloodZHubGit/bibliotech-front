@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { DatabaseService } from '../database.service';
-import { Users } from '../models/users';
+import { DatabaseService } from '../../database.service';
+import { Users } from '../../models/users';
 
 
 
@@ -12,7 +12,6 @@ import { Users } from '../models/users';
     <div class="max-w-xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
       <div *ngIf="user?.id != undefined">
       <h1 class="text-2xl font-bold text-center mb-8">Mes auteurs favoris</h1>
-      <!--if user has no favorite authors-->
       <div *ngIf="favoriteAuthors?.length == 0">
         <div class="flex flex-col items-center space-y-4">
           <h1 class="text-gray-500 text-sm">Vous n'avez pas encore d'auteurs favoris</h1>
@@ -69,7 +68,7 @@ import { Users } from '../models/users';
       </div>
     </div>
   </div>
-</div>
+
   `,
   styles: []
 })

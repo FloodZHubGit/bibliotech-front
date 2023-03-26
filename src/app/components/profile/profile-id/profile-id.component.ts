@@ -79,7 +79,7 @@ import { NgForm } from '@angular/forms';
                 </svg>
                 </p>
 
-                <a href="#" class="text-blue-500 font-medium hover:underline">Voir le document</a>
+                <a href="/book/{{book.id}}" class="text-blue-500 font-medium hover:underline">Voir le document</a>
               </div>
             </div>
           </div>

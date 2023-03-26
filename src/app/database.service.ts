@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import PocketBase from 'pocketbase';
 import { Books } from 'src/app/models/books';
 import { Users } from 'src/app/models/users';
+import { Pages } from './models/pages';
+import { Categories } from './models/categories';
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +33,6 @@ export class DatabaseService {
     if (data.value.avatar) {
       authData.append('avatar', data.value.avatar);
     }
-
-    console.log(authData);
 
     const record = await this.pb.collection('users').create(authData);
   }
@@ -87,7 +87,9 @@ export class DatabaseService {
   }
 
   async getBooks() {
-    let records = await this.pb.collection('books').getFullList({
+    let records: Books[] = [];
+
+    records = await this.pb.collection('books').getFullList({
       sort: '-created',
     });
     return records;
@@ -102,6 +104,14 @@ export class DatabaseService {
     });
     return records;
   }
+
+  async getBookById(id: string | undefined) {
+    let record: Books;
+    record = await this.pb.collection('books').getOne(id as string, {
+    });
+    return record;
+  }
+
 
   async getBookByUserId(id: string | undefined) {
     let records: Books[] = [];
@@ -129,9 +139,6 @@ export class DatabaseService {
 
   async updateUserWithId(id: string | undefined, username: string | undefined, data: any) {
     const authData = new FormData();
-
-    console.log(data.value.firstName);
-    console.log(data.value.lastName);
 
     authData.append('username', username as string),
     authData.append('firstname', data.value.firstName);
@@ -193,14 +200,62 @@ export class DatabaseService {
   async getFavoriteAuthors() {
     let records: Users[] = [];
 
-    //if followers includes current user id
-
     records = await this.pb.collection('users').getFullList({
       filter: `followers ~ "${this.pb.authStore.model?.id}"`,
     });
 
-    console.log(records);
-
     return records;
+  }
+
+  async getPages() {
+    const records = await this.pb.collection('pages').getFullList({
+      sort: '-created',
+  });
+    return records;
+  }
+
+  async addPage(bookId: string | undefined, data: any) {
+    const authData = new FormData();
+
+    authData.append('title', data.value.title);
+    authData.append('content', data.value.content);
+    authData.append('book_id', bookId as string);
+
+    const record = await this.pb.collection('pages').create(authData);
+  }
+
+  async requestVerification() {
+    await this.pb.collection('users').requestVerification('florentin.dekneudt@gmail.com');
+  }
+
+  async getCategories() {
+    const records: Categories[] = await this.pb.collection('categories').getFullList({
+      sort: '-created',
+    });
+    return records;
+  }
+
+  async addCategory(data: any) {
+    const authData = new FormData();
+
+    authData.append('label', data.value.label);
+
+    const record = await this.pb.collection('categories').create(authData);
+  }
+
+  async deleteCategory(id: string | undefined) {
+    const record = await this.pb.collection('categories').delete(id as string);
+  }
+
+  async editCategory(id: string | undefined, data: any) {
+    const record = await this.pb.collection('categories').update(id as string, {
+      label: data.value.label,
+    });
+  }
+
+  async getCategoryById(id: string | undefined) {
+    const record: Categories = await this.pb.collection('categories').getOne(id as string, {
+    });
+    return record;
   }
 }

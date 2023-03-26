@@ -6,8 +6,10 @@ import { RegisterComponent } from './components/register/register.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { BibliothequeComponent } from './components/bibliotheque/bibliotheque.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { AuteursComponent } from './auteurs/auteurs.component';
+import { AuteursComponent } from './components/auteurs/auteurs.component';
 import { ProfileIdComponent } from './components/profile/profile-id/profile-id.component';
+import { BookComponent } from './components/book/book.component';
+import { AddbookComponent } from './components/addbook/addbook.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,6 +20,8 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'profile/:id', component: ProfileIdComponent},
   { path: 'auteurs', component: AuteursComponent },
+  { path: 'book/:id', component: BookComponent },
+  { path: 'add-book', component: AddbookComponent },
 ];
 
 @NgModule({
