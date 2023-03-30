@@ -5,7 +5,6 @@ import { DatabaseService } from '../../database.service';
 @Component({
   selector: 'app-register',
   template: `
-  <!--center on the page -->
     <div class="py-8">
       <div class="max-w-xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
         <form #registerForm="ngForm" (ngSubmit)="register(registerForm)" class="flex flex-col">

@@ -208,8 +208,18 @@ export class DatabaseService {
   }
 
   async getPages() {
-    const records = await this.pb.collection('pages').getFullList({
-      sort: '-created',
+    let records: Pages[] = [];
+    records = await this.pb.collection('pages').getFullList({
+      sort: 'created',
+  });
+    return records;
+  }
+
+  async getPagesByBookId(id: string | undefined) {
+    let records: Pages[] = [];
+    records = await this.pb.collection('pages').getFullList({
+      sort: 'created',
+      filter: `book_id = "${id}"`,
   });
     return records;
   }
@@ -258,4 +268,39 @@ export class DatabaseService {
     });
     return record;
   }
+
+  async requestPasswordReset(email: string | undefined) {
+    await this.pb.collection('users').requestPasswordReset(email as string);
+  }
+
+  async addBook(data: any) {
+    const bookData = new FormData();
+
+    bookData.append('title', data.value.title);
+    bookData.append('resume', data.value.resume);
+    bookData.append('user_id', this.pb.authStore.model?.id as string);
+    for (let category of data.value.categories) {
+      bookData.append('category_id', category);
+    }
+
+    if (data.value.image) {
+      bookData.append('image', data.value.image);
+    }
+
+    console.log(bookData.get('category_id'));
+
+    const record = await this.pb.collection('books').create(bookData);
+  }
+
+  async addPageToBook(bookId: any) {
+    const pageData = new FormData();
+
+    pageData.append('title', 'Nouvelle page');
+    pageData.append('content', 'Veuillez modifier le contenu de cette page.');
+
+    pageData.append('book_id', bookId);
+
+    const record = await this.pb.collection('pages').create(pageData);
+  }
+
 }

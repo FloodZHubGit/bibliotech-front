@@ -7,7 +7,7 @@ import { Books } from 'src/app/models/books';
   selector: 'app-bibliotheque',
   template: `
     <div class="p-4 text-center">
-      <h1 class="text-3xl font-bold mb-4">Bienvenue sur la page de la bibliothèque !</h1>
+      <h1 class="text-3xl font-bold mb-4">Voici la liste de tous les documents</h1>
       <a href="/add-book" class="mt-4 bg-[#D9C8B7] text-white font-bold py-2 px-4 rounded"> Ajouter un document </a>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
         <div *ngFor="let book of books">
@@ -21,9 +21,9 @@ import { Books } from 'src/app/models/books';
                 </svg></p>
               <p class="text-gray-700 font-bold mb-2">Publié le : {{ book.created | date:'dd/MM/yyyy' }}</p>
               <a class="text-gray-700 font-bold mb-2" href="/profile/{{book.user?.id}}">Par : {{ book.user?.firstname}} {{ book.user?.lastname }}</a>
-              <div class="flex flex-wrap mt-4">
-              <div *ngFor="let category of book.category_id">
-                <a class="border-2 border-gray-300 rounded-full py-1 px-3 text-gray-700 font-bold mb-2 mr-2 mt-2">{{ category }}</a>
+              <div class="mx-auto">
+              <div class="mt-4 mb-6">
+                <a *ngFor="let category of book.category_id" class="border-2 border-gray-300 rounded-full py-1 px-3 text-gray-700 font-bold mb-2 mr-2 mt-2">{{ category }}</a>
               </div>
               </div>
               <a href="/book/{{book.id}}" class="mt-4 bg-[#D9C8B7] text-white font-bold py-2 px-4 rounded"> Voir le document </a>
@@ -31,41 +31,6 @@ import { Books } from 'src/app/models/books';
           </div>
         </div>
       </div>
-
-      <form #addPageForm="ngForm" (ngSubmit)="addPage(addPageForm)">
-        <div class="flex flex-col space-y-4">
-          <div>
-            <label for="title" class="text-gray-700 font-bold mb-2">
-                Title
-              </label>
-              <input type="text" name="title" id="title" class="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
-                        placeholder-gray-400 focus:outline-none focus:ring-[#D9C8B7] focus:border-[#D9C8B7] sm:text-sm" required ngModel>
-
-              <label for="content" class="text-gray-700 font-bold mb-2">
-                Content
-              </label>
-              <textarea name="content" id="content" class="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required ngModel></textarea>
-
-              <button type="submit" class="mt-4 bg-[#D9C8B7] text-white font-bold py-2 px-4 rounded">
-                Add page
-              </button>
-
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <div class="p-4 text-center">
-      <h1 class="text-3xl font-bold mb-4">Liste des pages</h1>
-      <div class="flex flex-col space-y-4">
-        <div *ngFor="let page of pages">
-          <div class="flex flex-col space-y-4">
-            <h1 class="text-2xl font-bold mb-4">{{ page.title }}</h1>
-            <p class="text-gray-700 font-bold mb-2">{{ page.book_id }}</p>
-            <p class="text-gray-700 font-bold mb-2">{{ page.content }}</p>
-            </div>
-        </div>
-    </div>
     
       `,
   styles: []
@@ -76,28 +41,11 @@ export class BibliothequeComponent {
   books: Books[] = [];
 
   constructor(private databaseService: DatabaseService) {
-    this.databaseService.getPages().then((data) => {
-      console.log(data);
-      this.pages = data;
-      
-      for (let i = 0; i < this.pages.length; i++) {
-        this.pages[i].content = this.pages[i].content.replace(/\r\n/g, '<br>');
-        this.databaseService.getBookById(this.pages[i].book_id).then((data) => {
-          this.pages[i].book_id = data.title;
-        }
-        ).catch(err => {
-          console.log(err);
-        }
-        );
-      }
-    });
-
     this.databaseService.getBooks().then((data) => {
       console.log(data);
       this.books = data;
 
       for (let i = 0; i < this.books.length; i++) {
-        //replace the id of the category by the name of the category
         for (let j = 0; j < this.books[i].category_id!.length; j++) {
           this.databaseService.getCategoryById(this.books[i].category_id![j]).then((data) => {
             this.books[i].category_id![j] = data.label as string;
@@ -120,9 +68,5 @@ export class BibliothequeComponent {
     ).catch(err => {
       console.log(err);
     });
-  }
-
-  async addPage(form: NgForm) {
-    await this.databaseService.addPage("nwrrrbdq7j3bhtk", form);
   }
 }

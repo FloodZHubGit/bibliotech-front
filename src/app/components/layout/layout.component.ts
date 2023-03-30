@@ -83,13 +83,11 @@ import { Users } from '../../models/users';
   <div class="sm:hidden" id="mobile-menu" *ngIf="menuOpen">
     <div class="space-y-1 px-2 pt-2 pb-3">
       <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-      <a href="#" class="text-white hover:bg-[#B8A99B] block rounded-md px-3 py-2 text-base font-medium">Livres</a>
+      <a routerLink="/bibliotheque" href="#" class="text-white hover:bg-[#B8A99B] block rounded-md px-3 py-2 text-base font-medium">Bibliothèque</a>
 
-      <a href="#" class="text-white hover:bg-[#B8A99B] hover:text-white block rounded-md px-3 py-2 text-base font-medium">Auteurs</a>
+      <a routerLink="/auteurs" href="#" class="text-white hover:bg-[#B8A99B] hover:text-white block rounded-md px-3 py-2 text-base font-medium">Auteurs</a>
 
-      <a href="#" class="text-white hover:bg-[#B8A99B] hover:text-white block rounded-md px-3 py-2 text-base font-medium">Jsp</a>
-
-      <a href="#" class="text-white hover:bg-[#B8A99B] hover:text-white block rounded-md px-3 py-2 text-base font-medium">Jsp 2</a>
+      <a routerLink="/admin" href="#" class="text-white hover:bg-[#B8A99B] hover:text-white block rounded-md px-3 py-2 text-base font-medium" *ngIf="user?.role == 'admin'">Admin</a>
     </div>
   </div>
 </nav>

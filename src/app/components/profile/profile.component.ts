@@ -43,6 +43,9 @@ import { Books } from 'src/app/models/books';
             <button type="submit" class="bg-[#D9C8B7] hover:bg-[#B8A99B] text-white px-4 py-3 rounded font-medium w-full">
               Sauvegarder les modifications
             </button>
+            <button type="button" class="bg-[#D9C8B7] hover:bg-[#B8A99B] text-white px-4 py-3 rounded font-medium w-full" (click)="changePassword()">
+              Changer mon mot de passe
+            </button>
             <button type="button" class="bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded font-medium w-full" (click)="deleteConfirmation = true">
               Supprimer mon compte
             </button>
@@ -165,5 +168,12 @@ export class ProfileComponent {
     else {
       this.deleteConfirmation = true;
     }
+  }
+
+  changePassword(){
+    this.databaseService.requestPasswordReset(this.user?.email);
+    //add notification
+    window.alert('Un email vous a été envoyé pour réinitialiser votre mot de passe');
+
   }
 }
