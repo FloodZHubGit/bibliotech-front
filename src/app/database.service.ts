@@ -303,4 +303,57 @@ export class DatabaseService {
     const record = await this.pb.collection('pages').create(pageData);
   }
 
+  async deletePage(id: string | undefined) {
+    const record = await this.pb.collection('pages').delete(id as string);
+  }
+
+  async getPageById(id: string | undefined) {
+    const record: Pages = await this.pb.collection('pages').getOne(id as string, {
+    });
+    return record;
+  }
+
+  async editPage(id: string | undefined, data: any) {
+    const record = await this.pb.collection('pages').update(id as string, {
+      title: data.value.title,
+      content: data.value.content,
+    });
+  }
+
+  async editBook(id: string | undefined, data: any) {
+    const bookData = new FormData();
+
+    bookData.append('title', data.value.title);
+    bookData.append('resume', data.value.resume);
+    for (let category of data.value.categories) {
+      bookData.append('category_id', category);
+    }
+
+    if (data.value.image) {
+      bookData.append('image', data.value.image);
+    }
+
+    const record = await this.pb.collection('books').update(id as string, bookData);
+  }
+
+  async likeBook(id: string | undefined) {
+    let record: Books;
+
+    record = await this.pb.collection('books').getOne(id as string, {
+    });
+
+    let likes: string[] = [];
+    likes = record.liked_by as string[];
+
+    if (likes.includes(this.pb.authStore.model?.id as string)) {
+      likes = likes.filter((item) => item !== this.pb.authStore.model?.id);
+    }
+    else {
+      likes.push(this.pb.authStore.model?.id as string);
+    }
+
+    const record2 = await this.pb.collection('books').update(id as string, {
+      liked_by: likes,
+    });
+  }
 }

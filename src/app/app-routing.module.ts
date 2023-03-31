@@ -10,6 +10,7 @@ import { AuteursComponent } from './components/auteurs/auteurs.component';
 import { ProfileIdComponent } from './components/profile/profile-id/profile-id.component';
 import { BookComponent } from './components/book/book.component';
 import { AddbookComponent } from './components/addbook/addbook.component';
+import { EditpageComponent } from './components/editpage/editpage.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'auteurs', component: AuteursComponent },
   { path: 'book/:id', component: BookComponent },
   { path: 'add-book', component: AddbookComponent },
+  { path: 'edit-page/:id', component: EditpageComponent},
 ];
 
 @NgModule({
