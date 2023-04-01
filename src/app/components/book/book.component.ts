@@ -19,6 +19,9 @@ import { Users } from '../../models/users';
             <span *ngIf="!book?.liked_by?.includes(user?.id || '')">Ajouter aux favoris</span>
             <span *ngIf="book?.liked_by?.includes(user?.id || '')">Retirer des favoris</span>
           </button>
+          <button class="bg-[#D9C8B7] hover:bg-[#B8A99B] text-white px-4 py-3 rounded font-medium" (click)="reported()">
+            <span>Signaler</span>
+          </button>
       </div>
       <div class="flex justify-between">
           <button class="px-4 py-2 bg-gray-800 text-white rounded" *ngIf="currentPageIndex > 0" (click)="currentPageIndex = currentPageIndex - 1">Précédent</button>
@@ -136,5 +139,11 @@ export class BookComponent {
     ).catch(err => {
       console.log(err);
     });
+  }
+
+  reported() {
+    this.databaseService.reportBook(this.bookId);
+
+    window.location.reload();
   }
 }

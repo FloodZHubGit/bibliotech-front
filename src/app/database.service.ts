@@ -3,6 +3,7 @@ import PocketBase from 'pocketbase';
 import { Books } from 'src/app/models/books';
 import { Users } from 'src/app/models/users';
 import { Pages } from './models/pages';
+import { Reported } from './models/reported';
 import { Categories } from './models/categories';
 
 @Injectable({
@@ -293,6 +294,7 @@ export class DatabaseService {
   }
 
   async addPageToBook(bookId: any) {
+    
     const pageData = new FormData();
 
     pageData.append('title', 'Nouvelle page');
@@ -356,4 +358,18 @@ export class DatabaseService {
       liked_by: likes,
     });
   }
+
+  async reportBook(bookId: any) {
+    
+    const report = new FormData();
+    console.log('test1');
+
+    report.append('book_id', bookId as string);
+    report.append('user_id', this.pb.authStore.model?.id as string);
+    console.log('test2');
+
+    const reported = await this.pb.collection('reported').create(report);
+  
+  }
+  
 }
