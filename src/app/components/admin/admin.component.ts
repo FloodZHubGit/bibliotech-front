@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { DatabaseService } from '../../database.service';
 import { NgForm } from '@angular/forms';
 import { Categories } from 'src/app/models/categories';
+import { Reported } from 'src/app/models/reported';
+import { Users } from 'src/app/models/users';
 
 
 @Component({
@@ -32,11 +34,37 @@ import { Categories } from 'src/app/models/categories';
       </div>
 
       <button (click)="requestVerification()" class="mt-4 bg-[#D9C8B7] text-white font-bold py-2 px-4 rounded"> Demander une vérification </button>
+      <h2 class="text-2xl font-bold mb-4">Liste des signalements</h2>
+
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Livre</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Signaleur</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Raison</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr *ngFor="let reported of reports" class="text-left sm:items-center border-b border-gray-200 pb-4">
+            <td class="px-6 py-4 whitespace-nowrap">{{ reported.book_id }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ reported.user_id }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ reported.reason }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ reported.description }}</td>
+          </tr>
+        </tbody>
+      </table>
+
     </div>
       `,
   styles: []
 })
 export class AdminComponent {
+  
+  reports: Reported[] = [];
+  user: Users | undefined;
+
+
   constructor(private databaseService: DatabaseService) {
     this.databaseService.checkAuth().then(record => {
       if (record == false) {
@@ -61,6 +89,7 @@ export class AdminComponent {
     ).catch(err => {
       console.log('Erreur dans la récupération des catégories : ', err);
     });
+
   }
 
   categories: Categories[] = [];
@@ -130,5 +159,33 @@ export class AdminComponent {
         console.log('Erreur dans la modification de la catégorie : ', err);
       });
     }
+  }
+
+  ngOnInit(){
+    this.databaseService.getReports().then(reports => {
+      this.reports = reports;
+
+      for (let i = 0; i < this.reports.length; i++) {
+        this.databaseService.getUserById(this.reports[i].user_id).then((data) => {
+          this.reports[i].user_id = data.email as string;
+        }
+        ).catch(err => {
+          console.log(err);
+        }
+        );
+
+        this.databaseService.getBookById(this.reports[i].book_id).then((data) => {
+          this.reports[i].book_id = data.title as string;
+        }
+        ).catch(err => {
+          console.log(err);
+        }
+        );
+      }
+
+      console.log(reports);
+    });
+    console.log("records");
+  console.log(this.reports);
   }
 }

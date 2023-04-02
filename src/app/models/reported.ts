@@ -1,3 +1,6 @@
+import { Users } from "./users";
+import { Books } from "./books";
+
 export class Reported {
     constructor(
     public id: string | undefined,

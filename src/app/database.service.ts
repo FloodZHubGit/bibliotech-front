@@ -371,5 +371,14 @@ export class DatabaseService {
     const reported = await this.pb.collection('reported').create(report);
   
   }
+
+  async getReports() {
+    let records: Reported[] = [];
+
+    records = await this.pb.collection('reported').getFullList({
+      sort: '-created',
+    });
+    return records;
+  }
   
 }
