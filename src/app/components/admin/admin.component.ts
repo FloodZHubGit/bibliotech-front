@@ -41,6 +41,7 @@ import { Users } from 'src/app/models/users';
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Signaleur</th>
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Raison</th>
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
@@ -49,6 +50,9 @@ import { Users } from 'src/app/models/users';
             <td class="px-6 py-4 whitespace-nowrap"><a href="/profile/{{ reported.user_id }}">{{ reported.user?.firstname }} {{ reported.user?.lastname }}</a></td>
             <td class="px-6 py-4 whitespace-nowrap">{{ reported.reason }}</td>
             <td class="px-6 py-4 whitespace-nowrap">{{ reported.description }}</td>
+            <td class="px-6 py-4 whitespace-nowrap"><button class="bg-[#D9C8B7] hover:bg-[#B8A99B] text-white px-4 py-3 rounded font-medium" (click)="deleteReport(reported.id)">
+            <span>Supprimer</span>
+          </button></td>
           </tr>
         </tbody>
       </table>
@@ -185,5 +189,16 @@ export class AdminComponent {
     });
     console.log("records");
   console.log(this.reports);
+  }
+
+  deleteReport(id: string | undefined) {
+    this.databaseService.deleteReported(id).then(record => {
+      console.log('Signalement supprimée : ', record);
+
+      this.ngOnInit()
+    }
+    ).catch(err => {
+      console.log('Erreur dans la suppression de la catégorie : ', err);
+    });
   }
 }
