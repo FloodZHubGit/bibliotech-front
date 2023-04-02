@@ -45,8 +45,8 @@ import { Users } from 'src/app/models/users';
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
           <tr *ngFor="let reported of reports" class="text-left sm:items-center border-b border-gray-200 pb-4">
-            <td class="px-6 py-4 whitespace-nowrap">{{ reported.book_id }}</td>
-            <td class="px-6 py-4 whitespace-nowrap">{{ reported.user_id }}</td>
+            <td class="px-6 py-4 whitespace-nowrap"><a href="/book/{{ reported.book_id }}">{{ reported.book?.title }}</a></td>
+            <td class="px-6 py-4 whitespace-nowrap"><a href="/profile/{{ reported.user_id }}">{{ reported.user?.firstname }} {{ reported.user?.lastname }}</a></td>
             <td class="px-6 py-4 whitespace-nowrap">{{ reported.reason }}</td>
             <td class="px-6 py-4 whitespace-nowrap">{{ reported.description }}</td>
           </tr>
@@ -165,7 +165,7 @@ export class AdminComponent {
 
       for (let i = 0; i < this.reports.length; i++) {
         this.databaseService.getUserById(this.reports[i].user_id).then((data) => {
-          this.reports[i].user_id = data.email as string;
+          this.reports[i].user = data;
         }
         ).catch(err => {
           console.log(err);
@@ -173,7 +173,7 @@ export class AdminComponent {
         );
 
         this.databaseService.getBookById(this.reports[i].book_id).then((data) => {
-          this.reports[i].book_id = data.title as string;
+          this.reports[i].book = data;
         }
         ).catch(err => {
           console.log(err);

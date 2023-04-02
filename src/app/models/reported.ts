@@ -5,7 +5,9 @@ export class Reported {
     constructor(
     public id: string | undefined,
     public book_id: string | undefined,
-    public user_id: string | undefined, 
+    public book: Books | undefined,
+    public user_id: string | undefined,
+    public user: Users | undefined,
     public reason: string | undefined,
     public description: string | undefined,
     public created: string | undefined,
