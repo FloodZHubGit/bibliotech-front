@@ -46,10 +46,10 @@ import { Users } from 'src/app/models/users';
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
           <tr *ngFor="let reported of reports" class="text-left sm:items-center border-b border-gray-200 pb-4">
-            <td class="px-6 py-4 whitespace-nowrap"><a href="/book/{{ reported.book_id }}">{{ reported.book?.title }}</a></td>
-            <td class="px-6 py-4 whitespace-nowrap"><a href="/profile/{{ reported.user_id }}">{{ reported.user?.firstname }} {{ reported.user?.lastname }}</a></td>
-            <td class="px-6 py-4 whitespace-nowrap">{{ reported.reason }}</td>
-            <td class="px-6 py-4 whitespace-nowrap">{{ reported.description }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm"><a href="/book/{{ reported.book_id }}">{{ reported.book?.title }}</a></td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm"><a href="/profile/{{ reported.user_id }}">{{ reported.user?.firstname }} {{ reported.user?.lastname }}</a></td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm">{{ reported.reason }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm">{{ reported.description }}</td>
             <td class="px-6 py-4 whitespace-nowrap"><button class="bg-[#D9C8B7] hover:bg-[#B8A99B] text-white px-4 py-3 rounded font-medium" (click)="deleteReport(reported.id)">
             <span>Supprimer</span>
           </button></td>

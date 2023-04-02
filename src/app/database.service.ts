@@ -384,5 +384,8 @@ export class DatabaseService {
   async deleteReported(id: string | undefined) {
     const record = await this.pb.collection('reported').delete(id as string);
   }
-  
+
+  async deleteBook(id: string | undefined) {
+    const record = await this.pb.collection('books').delete(id as string);
+  }
 }

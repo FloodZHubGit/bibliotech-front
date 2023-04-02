@@ -63,6 +63,7 @@ import { Users } from '../../models/users';
       <div class="w-full lg:w-1/2">
         <button class="px-4 py-2 bg-gray-800 text-white rounded" (click)="deletePage()">Supprimer cette page</button>
         <button class="px-4 py-2 bg-gray-800 text-white rounded ml-4" (click)="addPage()">Ajouter une page</button>
+        <button class="px-4 py-2 bg-gray-800 text-white rounded ml-4" (click)="deleteBook()">Supprimer ce livre</button>
       </div>
     </div>
   </div>
@@ -152,6 +153,12 @@ export class BookComponent {
 
   editPage() {
     window.location.href = '/edit-page/' + this.pages![this.currentPageIndex].id;
+  }
+
+  deleteBook() {
+    this.databaseService.deleteBook(this.bookId);
+    
+    window.location.href = '/bibliotheque';
   }
 
   like() {

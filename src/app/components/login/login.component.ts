@@ -22,11 +22,31 @@ import { DatabaseService } from '../../database.service';
           <input type="password" name="password" id="password" class="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
                         placeholder-gray-400 focus:outline-none focus:ring-[#D9C8B7] focus:border-[#D9C8B7] sm:text-sm" ngModel required>
         </div>
+
         <div>
           <button type="submit" class="bg-[#D9C8B7] hover:bg-[#B8A99B] text-white px-4 py-3 rounded font-medium w-full">Se connecter</button>
         </div>
       </form>
       <p class="text-red-500">{{error}} </p>
+      <div class="mt-4">
+        <button (click)="passwordForgotten = true" class="font-bold">Mot de passe oublié ?</button>
+
+        <div *ngIf="passwordForgotten">
+          <p class="text-gray-700 font-bold mb-2 mt-8">
+            Veuillez entrer votre adresse email pour réinitialiser votre mot de passe.
+          </p>
+          <form #passwordForgottenForm="ngForm" (ngSubmit)="forgotPassword(passwordForgottenForm)">
+            <div class="mb-4">
+              <label for="email" class="text-gray-700 font-bold mb-2">
+                Email
+              </label>
+              <input type="email" name="email" id="email" class="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm
+                            placeholder-gray-400 focus:outline-none focus:ring-[#D9C8B7] focus:border-[#D9C8B7] sm:text-sm" ngModel required>
+
+              <button type="submit" class="bg-[#D9C8B7] hover:bg-[#B8A99B] text-white px-4 py-3 rounded font-medium w-full mt-8">Envoyer</button>
+            </div>
+          </form>
+      </div>
     </div>
   </div>
   `,
@@ -45,6 +65,9 @@ export class LoginComponent {
   }
 
   error: string = '';
+  passwordForgotten: boolean = false;
+
+
 
   login(loginForm: NgForm) {
     if (loginForm.value.email == '' || loginForm.value.password == '') {
@@ -59,4 +82,13 @@ export class LoginComponent {
       });
     }
   }
+
+  forgotPassword(passwordForgottenForm: NgForm) {
+    this.databaseService.requestPasswordReset(passwordForgottenForm.value.email).then(record => {
+      this.error = "Un email de réinitialisation a été envoyé à l'adresse indiquée.";
+    }).catch(err => {
+      this.error = "Aucun compte n'est associé à cette adresse email";
+    });
+  }
+
 }
