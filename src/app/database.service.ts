@@ -359,14 +359,14 @@ export class DatabaseService {
     });
   }
 
-  async reportBook(bookId: any) {
+  async reportBook(bookId: string | undefined, raison: string | undefined, description: string | undefined) {
     
     const report = new FormData();
-    console.log('test1');
 
     report.append('book_id', bookId as string);
     report.append('user_id', this.pb.authStore.model?.id as string);
-    console.log('test2');
+    report.append('reason', raison as string);
+    report.append('description', description as string);
 
     const reported = await this.pb.collection('reported').create(report);
   
