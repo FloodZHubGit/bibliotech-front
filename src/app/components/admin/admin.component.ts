@@ -32,8 +32,6 @@ import { Users } from 'src/app/models/users';
           </div>
         </div>
       </div>
-
-      <button (click)="requestVerification()" class="mt-4 bg-[#D9C8B7] text-white font-bold py-2 px-4 rounded"> Demander une vérification </button>
       <h2 class="text-2xl font-bold mb-4">Liste des signalements</h2>
 
       <table class="min-w-full divide-y divide-gray-200">
